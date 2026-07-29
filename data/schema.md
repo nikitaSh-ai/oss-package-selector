@@ -35,3 +35,21 @@ Storage: SQLite (`data/raw_packages.db`), table name: `packages`
   INTEGER (0/1), dates stored as ISO 8601 TEXT strings (sortable, 
   parseable by pandas/Python directly).
 - package_name is the primary key since npm names are globally unique.
+
+
+## Known Data Limitations
+
+### dependents_count
+No reliable source was found for this metric. Investigated 3 options:
+1. **npm registry API** — no official endpoint exists. Confirmed via 
+   npm's own issue tracker (feature requested since 2017, never shipped).
+2. **npmjs.com website scraping** — blocked by Cloudflare bot protection 
+   (HTTP 403 on all requests).
+3. **npms.io aggregator API** — endpoint exists but data is stale 
+   (last analyzed ~2022); `dependentsCount` field is absent from 
+   current responses, suggesting the service is no longer actively 
+   maintained.
+
+**Decision:** This field is retained in the schema for completeness 
+but will remain NULL for all packages. This is documented as a known 
+limitation rather than silently omitted.
