@@ -1,8 +1,9 @@
-# Small test batch for Day 4 — mapping npm package name -> GitHub "owner/repo"
+# Small test batch — npm package name -> category
+# GitHub repo is now auto-derived from npm metadata (see fetch_npm.py)
 TEST_PACKAGES = [
-    {"name": "axios", "repo": "axios/axios", "category": "HTTP clients"},
-    {"name": "node-fetch", "repo": "node-fetch/node-fetch", "category": "HTTP clients"},
-    {"name": "dayjs", "repo": "iamkun/dayjs", "category": "Date/time libraries"},
-    {"name": "lodash", "repo": "lodash/lodash", "category": "Utility libraries"},
-    {"name": "zod", "repo": "colinhacks/zod", "category": "Data validation"},
+    {"name": "axios", "category": "HTTP clients"},
+    {"name": "node-fetch", "category": "HTTP clients"},
+    {"name": "dayjs", "category": "Date/time libraries"},
+    {"name": "lodash", "category": "Utility libraries"},
+    {"name": "zod", "category": "Data validation"},
 ]

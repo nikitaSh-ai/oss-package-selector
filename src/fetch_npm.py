@@ -1,39 +1,71 @@
 import requests
 
 import sqlite3
+from datetime import datetime, timezone
 
 
-def save_npm_to_db(package_name: str, npm_data: dict):
+
+def extract_github_repo(npm_json: dict) -> str:
+    """
+    Extract 'owner/repo' from npm's registry repository field.
+    Returns None if not a GitHub repo or field is missing/malformed.
+    """
+    repo_info = npm_json.get("repository")
+    if not repo_info:
+        return None
+
+    url = repo_info.get("url") if isinstance(repo_info, dict) else repo_info
+    if not url or "github.com" not in url:
+        return None
+
+    # Normalize: strip git+, .git, trailing slashes, protocol prefixes
+    url = url.replace("git+", "").replace(".git", "").rstrip("/")
+    url = url.split("github.com/")[-1]
+    # url = url.split("github.com:")[-1]  # handles git@github.com: format too
+    if "github.com:" in repo_info.get("url", "") if isinstance(repo_info, dict) else str(repo_info):
+        pass  # already handled by split above in most cases
+
+    return url if url.count("/") == 1 else None
+
+
+
+
+def save_npm_to_db(package_name: str, category: str, npm_data: dict):
     conn = sqlite3.connect("data/raw_packages.db")
     cursor = conn.cursor()
 
     cursor.execute("""
-        UPDATE packages
-        SET latest_version = ?,
-            weekly_downloads = ?,
-            dependents_count = ?,
-            is_deprecated = ?,
-            last_publish_date = ?,
-            num_versions = ?
-        WHERE package_name = ?
+        INSERT INTO packages (
+            package_name, category, latest_version, weekly_downloads,
+            dependents_count, is_deprecated, last_publish_date, num_versions,
+            fetch_date
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(package_name) DO UPDATE SET
+            latest_version=excluded.latest_version,
+            weekly_downloads=excluded.weekly_downloads,
+            dependents_count=excluded.dependents_count,
+            is_deprecated=excluded.is_deprecated,
+            last_publish_date=excluded.last_publish_date,
+            num_versions=excluded.num_versions,
+            fetch_date=excluded.fetch_date
     """, (
+        package_name, category,
         npm_data.get("latest_version"),
         npm_data.get("weekly_downloads"),
         npm_data.get("dependents_count"),
         int(npm_data.get("is_deprecated")) if npm_data.get("is_deprecated") is not None else None,
         npm_data.get("last_publish_date"),
         npm_data.get("num_versions"),
-        package_name
+        datetime.now(timezone.utc).isoformat()
     ))
 
     conn.commit()
-    rows_affected = cursor.rowcount
     conn.close()
+    print(f"✅ Saved/updated {package_name} npm data")
 
-    if rows_affected == 0:
-        print(f"⚠️ No existing row for {package_name} — GitHub fetch must run first.")
-    else:
-        print(f"✅ Updated {package_name} with npm data")
+
+
+
 
 
 def fetch_dependents_count(package_name: str) -> None:
@@ -85,7 +117,9 @@ def fetch_npm_data(package_name: str) -> dict:
         "num_versions": len(data.get("versions", {})),
         "weekly_downloads": fetch_weekly_downloads(package_name),
         "dependents_count": fetch_dependents_count(package_name),
+        "github_repo": extract_github_repo(data),
     }
+
 
 
 

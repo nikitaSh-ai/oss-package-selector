@@ -13,54 +13,58 @@ def check_rate_limit():
     return remaining, reset_time
 
 
-def process_package(pkg: dict):
+def process_package(name: str, category: str):
     """
-    Fetch GitHub + npm data for one package. Handles partial failures
-    gracefully — if GitHub succeeds but npm fails (or vice versa),
-    we keep whatever data we got rather than losing everything.
+    Fetch npm data first (to derive the GitHub repo), then GitHub data.
+    Handles partial failures gracefully.
     """
-    name = pkg["name"]
     errors = []
+    github_repo = None
 
-    # --- GitHub ---
-    remaining, reset_time = check_rate_limit()
-    if remaining < 10:
-        wait_seconds = reset_time - int(time.time()) + 5
-        print(f"⚠️ Rate limit low. Waiting {wait_seconds}s...")
-        time.sleep(max(wait_seconds, 0))
-
-    try:
-        github_result = fetch_github_data(pkg["repo"])
-        if "error" in github_result:
-            errors.append(f"GitHub: {github_result['error']}")
-        else:
-            save_to_db(name, pkg["category"], github_result)
-    except Exception as e:
-        errors.append(f"GitHub exception: {e}")
-
-    # --- npm ---
+    # --- npm (first, to get repo info) ---
     try:
         npm_result = fetch_npm_data(name)
         if "error" in npm_result:
             errors.append(f"npm: {npm_result['error']}")
         else:
-            save_npm_to_db(name, npm_result)
+            github_repo = npm_result.get("github_repo")
+            save_npm_to_db(name, category, npm_result)
     except Exception as e:
         errors.append(f"npm exception: {e}")
+
+    # --- GitHub (using derived repo) ---
+    if github_repo:
+        remaining, reset_time = check_rate_limit()
+        if remaining < 10:
+            wait_seconds = reset_time - int(time.time()) + 5
+            print(f"⚠️ Rate limit low. Waiting {wait_seconds}s...")
+            time.sleep(max(wait_seconds, 0))
+
+        try:
+            github_result = fetch_github_data(github_repo)
+            if "error" in github_result:
+                errors.append(f"GitHub: {github_result['error']}")
+            else:
+                save_to_db(name, category, github_result)
+        except Exception as e:
+            errors.append(f"GitHub exception: {e}")
+    else:
+        errors.append("No GitHub repo found in npm metadata")
 
     if errors:
         print(f"⚠️ {name} completed with issues: {'; '.join(errors)}")
     else:
         print(f"✅ {name} fully processed")
 
-    time.sleep(1)  # courtesy delay
+    time.sleep(1)
+
 
 
 def run_pipeline(packages: list):
     for pkg in packages:
-        process_package(pkg)
+        process_package(pkg["name"], pkg["category"])
     print("\n✅ Pipeline run complete.")
 
-
+    
 if __name__ == "__main__":
     run_pipeline(TEST_PACKAGES)
