@@ -61,10 +61,19 @@ def process_package(name: str, category: str):
 
 
 def run_pipeline(packages: list):
-    for pkg in packages:
+    total = len(packages)
+    for i, pkg in enumerate(packages, 1):
+        print(f"\n[{i}/{total}]", end=" ")
         process_package(pkg["name"], pkg["category"])
     print("\n✅ Pipeline run complete.")
-
     
+
+
+
 if __name__ == "__main__":
-    run_pipeline(TEST_PACKAGES)
+    import json
+    with open("data/discovered_packages.json") as f:
+        all_packages = json.load(f)
+
+    print(f"Starting full pipeline run on {len(all_packages)} packages...\n")
+    run_pipeline(all_packages)
