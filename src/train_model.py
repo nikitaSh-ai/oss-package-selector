@@ -2,6 +2,8 @@ from sklearn.model_selection import train_test_split
 from prepare_model_data import load_features, get_X_y
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+
 
 
 def split_data(X, y, test_size=0.2, random_state=42):
@@ -52,6 +54,31 @@ def evaluate_model(model, X_test, y_test):
 
 
 
+
+
+
+
+
+
+def run_cross_validation(model, X, y, n_folds=5):
+    """
+    StratifiedKFold (not plain KFold) keeps the ~65/35 class balance
+    consistent across all 5 folds — same reasoning as our stratified
+    train/test split.
+    """
+    cv = StratifiedKFold(n_splits=n_folds, shuffle=True, random_state=42)
+    scores = cross_val_score(model, X, y, cv=cv, scoring="accuracy")
+
+    print(f"\n5-Fold Cross-Validation Accuracy:")
+    print(f"  Individual folds: {[f'{s:.3f}' for s in scores]}")
+    print(f"  Mean: {scores.mean():.3f}")
+    print(f"  Std:  {scores.std():.3f}")
+
+
+
+
+
+
 if __name__ == "__main__":
     df = load_features()
     X, y = get_X_y(df)
@@ -74,3 +101,4 @@ if __name__ == "__main__":
 
 
     evaluate_model(model, X_test, y_test)
+    run_cross_validation(model, X, y)
