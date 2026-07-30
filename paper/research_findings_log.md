@@ -1,0 +1,80 @@
+# Research Findings Log
+**Purpose:** Running record of every methodological decision, data-quality finding, and result — written so it can be lifted almost directly into the paper's Methodology, Results, and Threats to Validity sections. Updated continuously through the project.
+
+---
+
+## Week 1 — Data Collection
+
+### F1. Discovery method: hybrid seed + keyword search
+Pure keyword-tag search on npm (`keywords:testing-framework`, etc.) returned semantically noisy results for some categories (e.g., "Testing frameworks" search missed jest/mocha/vitest entirely). Fixed by combining a hand-curated seed list of canonical packages with keyword-discovered packages for diversity. **Citable as:** hybrid discovery methodology — more reproducible than pure manual curation, more relevant than pure automated search.
+
+### F2. `dependents_count` — no reliable data source (documented limitation)
+Investigated 3 sources:
+1. npm registry API — no official endpoint (feature requested since 2017, never shipped)
+2. npmjs.com website scraping — blocked by Cloudflare bot protection (HTTP 403)
+3. npms.io aggregator API — endpoint exists but data is stale (~2022), field absent from current responses
+
+**Decision:** Field retained in schema for completeness, left NULL for all packages, documented as an honest limitation rather than substituted with unreliable data.
+
+### F3. `is_deprecated` — constant across dataset (discovery-method bias)
+Zero of 331 packages are npm-flagged as deprecated. Root cause: our discovery method (popularity/relevance-ranked search + curated seeds) inherently biases toward actively maintained packages — genuinely deprecated packages rarely surface in top search results. Column dropped from both label and predictors as a result (zero information / constant value).
+
+### F4. Data completeness: 331/368 packages (89.9%) usable
+37 packages (10.1%) had missing/broken GitHub repository links — either the `repository` field was absent from npm metadata, or the linked repo returned 404 (renamed/deleted). This is normal, expected real-world noise; per-package error isolation in the pipeline ensured these failures didn't interrupt collection of the other 331.
+
+---
+
+## Week 2 — Feature Engineering & Modeling
+
+### F5. Outlier cluster: bot-like publishing patterns in AI-agent-tooling packages
+A cluster of recently created (64–354 day old) packages (e.g., `pi-agent-core` variants) showed implausible activity rates — up to 972 releases/year and 227 stars/day — consistent with automated/CI-driven publishing rather than normal human-paced maintenance. Not a data error; a genuine anomalous subpopulation. **Handled via winsorization** (capped at 95th percentile) rather than manual exclusion, preserving the low-activity tail (which is genuine "less reliable" signal) while preventing a handful of anomalous rows from dominating model training.
+
+### F6. Label circularity risk — identified and avoided
+Initial plan was a composite "maintenance score" built from a weighted combination of the same signals (recency, release cadence, docs, license) intended as model predictors. This would have made the label trivially reconstructable from the predictors themselves — the model would show near-100% accuracy without learning any real pattern, and SHAP explanations would just reflect our own hand-chosen weights back.
+
+**Fix:** Target label (`well_maintained`) built from a *direct* signal only — `days_since_last_commit ≤ 365` — kept strictly separate from the predictor feature set. Predictors (release cadence, doc completeness, license presence, popularity, contributor rate, open issues, repo age) are correlated with but not definitionally identical to the label, so the model has to discover genuine relationships.
+
+### F7. Label threshold: 365 days, chosen from real distribution
+Checked abandonment rates at 5 candidate cutoffs (180/270/365/545/730 days) before choosing. 365 days gives a 35%/65% (less-reliable/well-maintained) split — workable for classification, not degenerate, and matches a widely recognized "no activity in over a year" definition of software abandonment. Verified the split holds reasonably across all 6 categories (range: 44.7%–92.2% well-maintained) — no category is entirely one class.
+
+### F8. Category-level variation in label balance (real signal, not noise)
+HTTP clients skew heavily "well-maintained" (92.2%) — plausible: a stale HTTP client is a security liability, so the ecosystem prunes/updates them faster. Date/time and Utility libraries skew lower (44–48%) — plausible: many small, "feature-complete" utility packages go long periods without commits despite being perfectly functional, not neglected.
+
+**Related limitation:** our label conflates "abandoned" with "stable/feature-complete." A utility library untouched for 2 years might be fine, not neglected. Documented as a Threats-to-Validity item; not fixed within project scope.
+
+### F9. Second leakage catch: `days_since_last_commit` in predictor list
+During Day 10 data-prep, caught that `days_since_last_commit` — the exact column used to construct the label — was still present in the predictor column list. Removed before training. Reinforces the value of an explicit label/predictor separation check as a standard step, not a one-time fix.
+
+### F10. Random Forest is scale-invariant — no feature scaling needed
+Raw feature scales vary hugely (`weekly_downloads` up to 367M vs `has_license` as 0/1), but Random Forest splits on per-feature thresholds rather than distances, so no scaling/normalization step was required. Noted as a modeling simplification specific to tree-based methods (would not hold if a distance-based model were used instead).
+
+### F11. Baseline Random Forest results
+- Single train/test split (80/20, stratified): train accuracy 100%, test accuracy 85.1%
+- 5-fold stratified cross-validation (full dataset): **81.3% ± 2.8%** — the more statistically honest number to report, given the single-split test set is only 67 rows
+- Confusion matrix: model is conservative in the *safe* direction — only 3/23 genuinely less-reliable packages were misclassified as well-maintained (93% precision on "well-maintained" predictions); more common error is the reverse (7/44 well-maintained packages flagged as risky)
+
+### F12. Hyperparameter tuning: unconstrained depth outperformed constrained
+Grid search over `max_depth` (4/6/8/None), `min_samples_leaf` (1/3/5), `n_estimators` (100/200) found the *unconstrained* tree depth (`max_depth=None`) performed best — same as baseline defaults. Depth-constraining reduced performance rather than helping.
+
+**Interpretation:** Random Forest's ensemble averaging (each tree sees a random row/feature subset; predictions are averaged) already provides substantial regularization independent of individual tree depth. The train/test accuracy gap (100% vs ~81–85%) reflects this architecture, not necessarily harmful overfitting. Best model retained: 200 trees, unconstrained depth.
+
+### F13. Feature importance (Gini-based, from tuned Random Forest)
+| Feature | Importance |
+|---|---|
+| releases_per_year | 0.269 |
+| contributors_per_year | 0.179 |
+| repo_age_days | 0.157 |
+| stars_per_day | 0.151 |
+| open_issues | 0.115 |
+| weekly_downloads | 0.106 |
+| doc_completeness_score | 0.019 |
+| has_license | 0.004 |
+
+Activity-based signals (release cadence, contributor rate) dominate; documentation/license signals contribute comparatively little. Worth cross-checking against SHAP values in Week 3 — Gini importance is known to be biased toward high-cardinality/continuous features (like our rate-based features) versus low-cardinality binary ones (like `has_license`), so this ranking should not be taken as final without SHAP corroboration.
+
+---
+
+## Open items / planned follow-ups
+- [ ] Threshold sensitivity check: re-evaluate model at 270/365/545-day label cutoffs to confirm results aren't fragile to our specific 365-day choice (planned for Day 12/13 wrap-up or Week 4 validation)
+- [ ] XGBoost comparison model, to be added after Random Forest tuning is finalized — parallel to prior RUL project's multi-model comparison approach
+- [ ] SHAP importance vs. Gini importance cross-check (Week 3)
