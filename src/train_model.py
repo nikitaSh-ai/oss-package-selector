@@ -1,6 +1,8 @@
 from sklearn.model_selection import train_test_split
 from prepare_model_data import load_features, get_X_y
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
 
 def split_data(X, y, test_size=0.2, random_state=42):
     """
@@ -30,6 +32,26 @@ def train_baseline_model(X_train, y_train):
 
 
 
+
+
+
+def evaluate_model(model, X_test, y_test):
+    y_pred = model.predict(X_test)
+
+    print("\nConfusion Matrix:")
+    print("(rows = actual, columns = predicted)")
+    cm = confusion_matrix(y_test, y_pred)
+    print(f"                 Predicted: Less Reliable   Predicted: Well-Maintained")
+    print(f"Actual: Less Reliable      {cm[0][0]:>18}   {cm[0][1]:>25}")
+    print(f"Actual: Well-Maintained    {cm[1][0]:>18}   {cm[1][1]:>25}")
+
+    print("\nClassification Report:")
+    print(classification_report(y_test, y_pred, target_names=["Less Reliable", "Well-Maintained"]))
+
+
+
+
+
 if __name__ == "__main__":
     df = load_features()
     X, y = get_X_y(df)
@@ -49,3 +71,6 @@ if __name__ == "__main__":
     test_accuracy = model.score(X_test, y_test)
     print(f"\nTrain accuracy: {train_accuracy:.3f}")
     print(f"Test accuracy: {test_accuracy:.3f}")
+
+
+    evaluate_model(model, X_test, y_test)
