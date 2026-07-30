@@ -91,6 +91,23 @@ def add_documentation_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 
+def add_target_label(df: pd.DataFrame, threshold_days: int = 365) -> pd.DataFrame:
+    """
+    Target label: well_maintained = 1 if the repo has committed within
+    `threshold_days`, else 0. This is a direct recency-based proxy for
+    abandonment risk — not a composite score — to avoid circularity with
+    the predictor features used later in modeling.
+
+    NOTE: is_deprecated was considered as a second label signal but is
+    excluded — it is constant (always 0) across our entire dataset,
+    likely due to discovery-method bias (popularity-ranked search
+    naturally favors actively maintained packages). See documented
+    limitation in data/schema.md.
+    """
+    df["well_maintained"] = (df["days_since_last_commit"] <= threshold_days).astype(int)
+    return df
+
+
 
 if __name__ == "__main__":
     df = load_raw_data()
@@ -104,16 +121,23 @@ if __name__ == "__main__":
     df = winsorize_features(df, normalized_cols)
 
     df = add_documentation_features(df)
+    df = add_target_label(df)
 
-    print("\nFinal engineered feature columns:")
     feature_cols = [
         "package_name", "category",
         "repo_age_days", "days_since_last_commit",
         "releases_per_year", "stars_per_day", "contributors_per_year",
         "doc_completeness_score", "has_license",
-        "is_deprecated", "weekly_downloads", "open_issues"
+        "weekly_downloads", "open_issues",
+        "well_maintained"
     ]
-    print(df[feature_cols].head())
+
+    print("\nLabel distribution:")
+    print(df["well_maintained"].value_counts())
+    print(f"\nBalance: {df['well_maintained'].mean()*100:.1f}% well-maintained")
+
+    print("\nLabel distribution by category (checking no category is all-one-class):")
+    print(df.groupby("category")["well_maintained"].mean())
 
     df[feature_cols].to_csv("data/features.csv", index=False)
     print(f"\n✅ Saved {len(df)} rows with {len(feature_cols)} columns to data/features.csv")
