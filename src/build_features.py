@@ -72,6 +72,26 @@ def winsorize_features(df: pd.DataFrame, columns: list, upper_percentile: float 
     return df
 
 
+
+
+
+def add_documentation_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Simple documentation/trust signals:
+    - doc_completeness_score: 0, 1, or 2 (has_readme + has_wiki)
+    - has_license: whether a license is declared at all (separate from
+      which license — that's a categorical detail we're not modeling)
+    """
+    df["doc_completeness_score"] = df["has_readme"].fillna(0) + df["has_wiki"].fillna(0)
+    df["has_license"] = df["license"].notna().astype(int)
+
+    return df
+
+
+
+
+
+
 if __name__ == "__main__":
     df = load_raw_data()
     print(f"Loaded {len(df)} rows, {len(df.columns)} columns")
@@ -95,8 +115,16 @@ if __name__ == "__main__":
     print(df.nlargest(5, "stars_per_day")[["package_name", "repo_age_days", "stars", "stars_per_day"]])
 
 
-    normalized_cols = ["releases_per_year", "stars_per_day", "contributors_per_year"]
-    df = winsorize_features(df, normalized_cols)
+    # normalized_cols = ["releases_per_year", "stars_per_day", "contributors_per_year"]
+    # df = winsorize_features(df, normalized_cols)
 
-    print("\nSummary stats after winsorizing:")
-    print(df[normalized_cols].describe())
+    # print("\nSummary stats after winsorizing:")
+    # print(df[normalized_cols].describe())
+
+
+    df = add_documentation_features(df)
+
+    print("\nDocumentation feature distribution:")
+    print(df["doc_completeness_score"].value_counts().sort_index())
+    print("\nLicense presence:")
+    print(df["has_license"].value_counts())
