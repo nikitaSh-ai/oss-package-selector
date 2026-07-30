@@ -35,15 +35,68 @@ def add_time_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 
+def add_activity_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Normalize raw counts by repo age, so older repos aren't unfairly
+    advantaged just for having more accumulated history.
+
+    A minimum age floor (90 days) is applied to the denominator only,
+    to prevent very young repos from producing extreme, noisy rates
+    (e.g., a 10-day-old repo with 5 contributors would otherwise show
+    ~180 contributors/year, which is not a meaningful signal).
+    """
+    MIN_AGE_DAYS = 90
+    safe_age_days = df["repo_age_days"].clip(lower=MIN_AGE_DAYS)
+    age_years = safe_age_days / 365.25
+
+    df["releases_per_year"] = df["num_versions"] / age_years
+    df["stars_per_day"] = df["stars"] / safe_age_days
+    df["contributors_per_year"] = df["contributor_count"] / age_years
+
+    return df
+
+
+
+
+def winsorize_features(df: pd.DataFrame, columns: list, upper_percentile: float = 0.95) -> pd.DataFrame:
+    """
+    Cap extreme outliers at the given percentile to prevent a small
+    number of anomalous packages (e.g., bot-driven publishing) from
+    dominating downstream model training. Applied only to the upper
+    tail, since unusually LOW activity is a genuine, meaningful signal
+    we want to preserve (that's literally what 'less reliable' looks like).
+    """
+    for col in columns:
+        cap = df[col].quantile(upper_percentile)
+        df[col] = df[col].clip(upper=cap)
+    return df
+
+
 if __name__ == "__main__":
     df = load_raw_data()
     print(f"Loaded {len(df)} rows, {len(df.columns)} columns")
 
     df = clean_data(df)
     df = add_time_features(df)
+    df = add_activity_features(df)
 
-    print("\nSample of new features:")
-    print(df[["package_name", "repo_age_days", "days_since_last_commit"]].head(10))
+    print("\nSample of normalized features:")
+    print(df[["package_name", "releases_per_year", "stars_per_day", "contributors_per_year"]].head(10))
 
     print("\nSummary stats:")
-    print(df[["repo_age_days", "days_since_last_commit"]].describe())
+    print(df[["releases_per_year", "stars_per_day", "contributors_per_year"]].describe())
+
+
+
+    print("\nTop 5 by releases_per_year:")
+    print(df.nlargest(5, "releases_per_year")[["package_name", "repo_age_days", "num_versions", "releases_per_year"]])
+
+    print("\nTop 5 by stars_per_day:")
+    print(df.nlargest(5, "stars_per_day")[["package_name", "repo_age_days", "stars", "stars_per_day"]])
+
+
+    normalized_cols = ["releases_per_year", "stars_per_day", "contributors_per_year"]
+    df = winsorize_features(df, normalized_cols)
+
+    print("\nSummary stats after winsorizing:")
+    print(df[normalized_cols].describe())
