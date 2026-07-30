@@ -1,0 +1,1474 @@
+[
+  {
+    "name": "axios",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "node-fetch",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "got",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "superagent",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "ky",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "undici",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@usebruno/cli",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@sap-cloud-sdk/http-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@kubb/plugin-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "wreq-js",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "kubo-rpc-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "tls-client-node",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "fetch-smartly",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "postman-cli",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "alova",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "rezo",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "cuimp",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@effect-ak/tg-bot-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "ng-http-caching",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@orangeopensource/hurl",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "feature-fetch",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "zotero-client-ts",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "request-digest",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/github-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/clerk-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/doppler-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@kodaris/krubble-http",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/infisical-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@adobe/aio-commerce-lib-api",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "kubo-rpc-client-esm-cjs",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/confluence-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/neon-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@agentforge/tools",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@thymian/plugin-request-dispatcher",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/zendesk-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@lark-apaas/http-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "moleculer-http-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@kubb/plugin-fetch",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/vercel-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@theholocron/postman-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "syntropylog",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@kubb/plugin-axios",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "ntee-r1quest",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@authup/core-http-kit",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@firtoz/hono-fetcher",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "curl-cffi",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@compose-market/core",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@lylajs/core",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@venizia/ignis-helpers",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@dxtmisha/functional-basic",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@yj01jung/httpclient",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@reclaimprotocol/client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "reduct-js",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@go-avro/avro-js",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@cdmbase/cdecli-agent-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@kywi-software/sdk",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@gofreego/tsutils",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "http-auth-client",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "util-http",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "mintly-lib",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "stormfetch",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "scrappey-wrapper",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "als-request",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@mdf.js/http-client-provider",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "@journyio/http",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "drishti-sdk",
+    "category": "HTTP clients"
+  },
+  {
+    "name": "moment",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "dayjs",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "date-fns",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "luxon",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "to-regex-range",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "kind-of",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "is-extendable",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "postgres-date",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@date-fns/tz",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "clone-deep",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "fecha",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@tabby_ai/hijri-converter",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "moment-timezone",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "date-fns-tz",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "date-format",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@google-cloud/precise-date",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "natural-orderby",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "telejson",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "react-datepicker",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@js-joda/core",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "mockdate",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "time-stamp",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "pretty-time",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@segment/isodate",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "new-date",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@segment/isodate-traverse",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "flatpickr",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@date-io/core",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@date-io/date-fns",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "nano-time",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "duration",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "vali-date",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "date-arithmetic",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "react-calendar",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@mantine/dates",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "date-time",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "time-zone",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@wojtekmaj/date-utils",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "timestring",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "chartjs-adapter-date-fns",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@date-io/moment",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "timezone-mock",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "lossless-json",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@expo/timeago.js",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "react-native-modal-datetime-picker",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "caldate",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@vuepic/vue-datepicker",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@date-io/dayjs",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "vega-format",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "vega-time",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "jalaali-js",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "world-calendars",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "teleport-javascript",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@date-io/luxon",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "react-date-range",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@formatjs/intl-relativetimeformat",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "ics",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "react-date-picker",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "pikaday",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@js-joda/timezone",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "@breejs/later",
+    "category": "Date/time libraries"
+  },
+  {
+    "name": "jest",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "mocha",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "vitest",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "ava",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "jasmine",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "tape",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "archunit",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "claude-all-config",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "cynic",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@vaagatech/snapline-auth-adapters",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@vaagatech/snapline-core",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@amaui/test",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "secret-polar-reworks",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@vaagatech/snapline-engine",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@sx4im/chronos-vitest",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "event_request",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "json-deep-compare",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "reqprobe",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@kubiklabs/wasmkit",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "testchronicle",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "testgenius-ai",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "mcp-jest",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "insite-mcp",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "mocktomata",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@saitarrunpitta/devforge-ai",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "sdlc-ai-workflow",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@presidio-dev/factifai-agent",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "tehanu",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@arufa/wasmkit",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@mocktomata/cli",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "a-teams",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "juno-trestle",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "junokit",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@ndp-software/lit-md",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "xc",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@vladx-official/vladx-core",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@mxmalykhin/template-package",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@sashbot/uibridge",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "mcp-workflow-server-enhanced",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@onesy/test",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@moyal/js-test",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "secret-polar",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@scaffit/jest",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "frappu",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@komondor-lab/core",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@scaffit/playwright",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "angular-jest-scaffolder",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "ete",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@sherpajs/counsel",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "tstai",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "hat-automation-tool",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "@raj30081987/dynamic-api-runner",
+    "category": "Testing frameworks"
+  },
+  {
+    "name": "redux",
+    "category": "State management"
+  },
+  {
+    "name": "zustand",
+    "category": "State management"
+  },
+  {
+    "name": "mobx",
+    "category": "State management"
+  },
+  {
+    "name": "recoil",
+    "category": "State management"
+  },
+  {
+    "name": "jotai",
+    "category": "State management"
+  },
+  {
+    "name": "xstate",
+    "category": "State management"
+  },
+  {
+    "name": "@earendil-works/pi-agent-core",
+    "category": "State management"
+  },
+  {
+    "name": "@assistant-ui/store",
+    "category": "State management"
+  },
+  {
+    "name": "@assistant-ui/tap",
+    "category": "State management"
+  },
+  {
+    "name": "json-diff-ts",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/store",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/devtools-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/storage-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "create-ls",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/router-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "@oh-my-pi/pi-agent-core",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/logger-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "@ai-sdk-tools/store",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/form-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "hook-conditional",
+    "category": "State management"
+  },
+  {
+    "name": "@openuidev/react-headless",
+    "category": "State management"
+  },
+  {
+    "name": "@playfast/reform",
+    "category": "State management"
+  },
+  {
+    "name": "create-cookie",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/hmr-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "react-tidy",
+    "category": "State management"
+  },
+  {
+    "name": "@libre/atom",
+    "category": "State management"
+  },
+  {
+    "name": "rozenite-zustand-devtools",
+    "category": "State management"
+  },
+  {
+    "name": "@tko/observable",
+    "category": "State management"
+  },
+  {
+    "name": "@dbeining/react-atom",
+    "category": "State management"
+  },
+  {
+    "name": "@zubridge/electron",
+    "category": "State management"
+  },
+  {
+    "name": "miniplex",
+    "category": "State management"
+  },
+  {
+    "name": "elf-sync-state",
+    "category": "State management"
+  },
+  {
+    "name": "state-in-url",
+    "category": "State management"
+  },
+  {
+    "name": "@gajae-code/agent-core",
+    "category": "State management"
+  },
+  {
+    "name": "@caupulican/pi-agent-core",
+    "category": "State management"
+  },
+  {
+    "name": "expo-zustand-persist",
+    "category": "State management"
+  },
+  {
+    "name": "@f5-sales-demo/pi-agent-core",
+    "category": "State management"
+  },
+  {
+    "name": "@servicetitan/tanstack-query-mobx",
+    "category": "State management"
+  },
+  {
+    "name": "@miniplex/bucket",
+    "category": "State management"
+  },
+  {
+    "name": "use-tree-state",
+    "category": "State management"
+  },
+  {
+    "name": "react-persistent-state-hook",
+    "category": "State management"
+  },
+  {
+    "name": "@ngxs/websocket-plugin",
+    "category": "State management"
+  },
+  {
+    "name": "@hirotoshioi/hiraku-core",
+    "category": "State management"
+  },
+  {
+    "name": "@kolisachint/hoocode-agent-core",
+    "category": "State management"
+  },
+  {
+    "name": "@sigx/reactivity",
+    "category": "State management"
+  },
+  {
+    "name": "data",
+    "category": "State management"
+  },
+  {
+    "name": "smart-context-hooks",
+    "category": "State management"
+  },
+  {
+    "name": "zustand-middleware-yjs",
+    "category": "State management"
+  },
+  {
+    "name": "loro-mirror",
+    "category": "State management"
+  },
+  {
+    "name": "@augmentcode/themis",
+    "category": "State management"
+  },
+  {
+    "name": "@juliusbrussee/caveman-agent",
+    "category": "State management"
+  },
+  {
+    "name": "shelving",
+    "category": "State management"
+  },
+  {
+    "name": "state-hooks",
+    "category": "State management"
+  },
+  {
+    "name": "react-fluxible",
+    "category": "State management"
+  },
+  {
+    "name": "@json-render/zustand",
+    "category": "State management"
+  },
+  {
+    "name": "next-url-state",
+    "category": "State management"
+  },
+  {
+    "name": "wevu",
+    "category": "State management"
+  },
+  {
+    "name": "radioactive-state",
+    "category": "State management"
+  },
+  {
+    "name": "array-utils-ts",
+    "category": "State management"
+  },
+  {
+    "name": "@chakra-dev/dojo-hooks",
+    "category": "State management"
+  },
+  {
+    "name": "@magnetarjs/types",
+    "category": "State management"
+  },
+  {
+    "name": "fluxible-js",
+    "category": "State management"
+  },
+  {
+    "name": "@zhachory1/mewrite-agent",
+    "category": "State management"
+  },
+  {
+    "name": "recoil-next",
+    "category": "State management"
+  },
+  {
+    "name": "@ilteoood/zorro",
+    "category": "State management"
+  },
+  {
+    "name": "alvamind",
+    "category": "State management"
+  },
+  {
+    "name": "lodash",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "ramda",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "underscore",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "type-fest",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "prelude-ls",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "bytes",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "escape-html",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "async",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "follow-redirects",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "string.prototype.trimend",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "extend-shallow",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "globby",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "string.prototype.trimstart",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "unist-util-visit-parents",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "unist-util-visit",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "unist-util-is",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-to-string",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-character",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-types",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-from-markdown",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "vfile-message",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "@sindresorhus/is",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-symbol",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "unist-util-stringify-position",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-classify-character",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-subtokenize",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-to-hast",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "fb-watchman",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "meow",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-decode-numeric-character-reference",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "process-warning",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-sanitize-uri",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-encode",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-to-markdown",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-html-tag-name",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-chunked",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-resolve-all",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-phrasing",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-combine-extensions",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "unist-util-position",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-normalize-identifier",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "micromark-util-decode-string",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "hast-util-whitespace",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-gfm-autolink-literal",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-gfm-strikethrough",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-find-and-replace",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-mdx-jsx",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-mdx-expression",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-gfm",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-gfm-footnote",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-gfm-table",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "filelist",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-mdxjs-esm",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "mdast-util-gfm-task-list-item",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "hast-util-parse-selector",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "hast-util-to-jsx-runtime",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "classnames",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "normalize-range",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "hastscript",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "has-values",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "hast-util-from-parse5",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "vfile-location",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "hast-util-to-html",
+    "category": "Utility libraries"
+  },
+  {
+    "name": "zod",
+    "category": "Data validation"
+  },
+  {
+    "name": "yup",
+    "category": "Data validation"
+  },
+  {
+    "name": "joi",
+    "category": "Data validation"
+  },
+  {
+    "name": "ajv",
+    "category": "Data validation"
+  },
+  {
+    "name": "superstruct",
+    "category": "Data validation"
+  },
+  {
+    "name": "ajv-formats",
+    "category": "Data validation"
+  },
+  {
+    "name": "ip-address",
+    "category": "Data validation"
+  },
+  {
+    "name": "@eslint/object-schema",
+    "category": "Data validation"
+  },
+  {
+    "name": "css-tree",
+    "category": "Data validation"
+  },
+  {
+    "name": "xmlchars",
+    "category": "Data validation"
+  },
+  {
+    "name": "@standard-schema/spec",
+    "category": "Data validation"
+  },
+  {
+    "name": "requires-port",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate-npm-package-name",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate-npm-package-license",
+    "category": "Data validation"
+  },
+  {
+    "name": "react-hook-form",
+    "category": "Data validation"
+  },
+  {
+    "name": "@hookform/resolvers",
+    "category": "Data validation"
+  },
+  {
+    "name": "zod-validation-error",
+    "category": "Data validation"
+  },
+  {
+    "name": "validator",
+    "category": "Data validation"
+  },
+  {
+    "name": "valibot",
+    "category": "Data validation"
+  },
+  {
+    "name": "@sideway/address",
+    "category": "Data validation"
+  },
+  {
+    "name": "ajv-draft-04",
+    "category": "Data validation"
+  },
+  {
+    "name": "@hapi/address",
+    "category": "Data validation"
+  },
+  {
+    "name": "@redocly/ajv",
+    "category": "Data validation"
+  },
+  {
+    "name": "jsonschema",
+    "category": "Data validation"
+  },
+  {
+    "name": "@mapbox/jsonlint-lines-primitives",
+    "category": "Data validation"
+  },
+  {
+    "name": "@apidevtools/swagger-parser",
+    "category": "Data validation"
+  },
+  {
+    "name": "@exodus/schemasafe",
+    "category": "Data validation"
+  },
+  {
+    "name": "oas-validator",
+    "category": "Data validation"
+  },
+  {
+    "name": "valid-url",
+    "category": "Data validation"
+  },
+  {
+    "name": "formik",
+    "category": "Data validation"
+  },
+  {
+    "name": "swagger2openapi",
+    "category": "Data validation"
+  },
+  {
+    "name": "z-schema",
+    "category": "Data validation"
+  },
+  {
+    "name": "is2",
+    "category": "Data validation"
+  },
+  {
+    "name": "dependency-cruiser",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate.io-array",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate.io-function",
+    "category": "Data validation"
+  },
+  {
+    "name": "email-validator",
+    "category": "Data validation"
+  },
+  {
+    "name": "ow",
+    "category": "Data validation"
+  },
+  {
+    "name": "drizzle-zod",
+    "category": "Data validation"
+  },
+  {
+    "name": "zod-from-json-schema",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate.io-integer-array",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate.io-number",
+    "category": "Data validation"
+  },
+  {
+    "name": "is-lite",
+    "category": "Data validation"
+  },
+  {
+    "name": "validate.io-integer",
+    "category": "Data validation"
+  },
+  {
+    "name": "express-validator",
+    "category": "Data validation"
+  },
+  {
+    "name": "swagger-parser",
+    "category": "Data validation"
+  },
+  {
+    "name": "tcomb-validation",
+    "category": "Data validation"
+  },
+  {
+    "name": "is-json",
+    "category": "Data validation"
+  },
+  {
+    "name": "magic-bytes.js",
+    "category": "Data validation"
+  },
+  {
+    "name": "@eslint/css-tree",
+    "category": "Data validation"
+  },
+  {
+    "name": "prop-types-exact",
+    "category": "Data validation"
+  },
+  {
+    "name": "graphql-query-complexity",
+    "category": "Data validation"
+  },
+  {
+    "name": "is-scoped",
+    "category": "Data validation"
+  },
+  {
+    "name": "convict",
+    "category": "Data validation"
+  },
+  {
+    "name": "@lingui/conf",
+    "category": "Data validation"
+  },
+  {
+    "name": "intl-tel-input",
+    "category": "Data validation"
+  },
+  {
+    "name": "@metamask/superstruct",
+    "category": "Data validation"
+  },
+  {
+    "name": "@sapphire/shapeshift",
+    "category": "Data validation"
+  },
+  {
+    "name": "strict-url-sanitise",
+    "category": "Data validation"
+  },
+  {
+    "name": "vee-validate",
+    "category": "Data validation"
+  }
+]
