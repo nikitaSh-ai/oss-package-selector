@@ -20,7 +20,8 @@ explainable support.
    recommendation with a plain-language explanation.
 
 ## Status
-🚧 In progress — Week 1 (Data Pipeline)
+🚧 In progress — Week 1 complete (331/368 packages collected). Starting Week 2 (Feature Engineering & Model).
+
 
 ## Tech Stack
 Python, pandas, scikit-learn, SHAP, GitHub REST API, npm Registry API
