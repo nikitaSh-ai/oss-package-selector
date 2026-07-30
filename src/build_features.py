@@ -100,31 +100,20 @@ if __name__ == "__main__":
     df = add_time_features(df)
     df = add_activity_features(df)
 
-    print("\nSample of normalized features:")
-    print(df[["package_name", "releases_per_year", "stars_per_day", "contributors_per_year"]].head(10))
-
-    print("\nSummary stats:")
-    print(df[["releases_per_year", "stars_per_day", "contributors_per_year"]].describe())
-
-
-
-    print("\nTop 5 by releases_per_year:")
-    print(df.nlargest(5, "releases_per_year")[["package_name", "repo_age_days", "num_versions", "releases_per_year"]])
-
-    print("\nTop 5 by stars_per_day:")
-    print(df.nlargest(5, "stars_per_day")[["package_name", "repo_age_days", "stars", "stars_per_day"]])
-
-
-    # normalized_cols = ["releases_per_year", "stars_per_day", "contributors_per_year"]
-    # df = winsorize_features(df, normalized_cols)
-
-    # print("\nSummary stats after winsorizing:")
-    # print(df[normalized_cols].describe())
-
+    normalized_cols = ["releases_per_year", "stars_per_day", "contributors_per_year"]
+    df = winsorize_features(df, normalized_cols)
 
     df = add_documentation_features(df)
 
-    print("\nDocumentation feature distribution:")
-    print(df["doc_completeness_score"].value_counts().sort_index())
-    print("\nLicense presence:")
-    print(df["has_license"].value_counts())
+    print("\nFinal engineered feature columns:")
+    feature_cols = [
+        "package_name", "category",
+        "repo_age_days", "days_since_last_commit",
+        "releases_per_year", "stars_per_day", "contributors_per_year",
+        "doc_completeness_score", "has_license",
+        "is_deprecated", "weekly_downloads", "open_issues"
+    ]
+    print(df[feature_cols].head())
+
+    df[feature_cols].to_csv("data/features.csv", index=False)
+    print(f"\n✅ Saved {len(df)} rows with {len(feature_cols)} columns to data/features.csv")
