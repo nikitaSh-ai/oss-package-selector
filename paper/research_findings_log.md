@@ -78,3 +78,19 @@ Activity-based signals (release cadence, contributor rate) dominate; documentati
 - [ ] Threshold sensitivity check: re-evaluate model at 270/365/545-day label cutoffs to confirm results aren't fragile to our specific 365-day choice (planned for Day 12/13 wrap-up or Week 4 validation)
 - [ ] XGBoost comparison model, to be added after Random Forest tuning is finalized — parallel to prior RUL project's multi-model comparison approach
 - [ ] SHAP importance vs. Gini importance cross-check (Week 3)
+
+
+
+
+
+### F14. XGBoost comparison model
+Trained XGBoost with matched settings (same predictors, split, `scale_pos_weight` as the class-imbalance equivalent of Random Forest's `class_weight="balanced"`). Random Forest outperformed XGBoost on every metric, though narrowly:
+
+| Metric | Random Forest (tuned) | XGBoost |
+|---|---|---|
+| CV Mean Accuracy | 81.3% | 80.0% |
+| CV Std | 2.8% | 3.9% |
+| Test Accuracy | 85.1% | 83.6% |
+| Precision (Well-Maintained) | 93% | 90% |
+
+**Interpretation:** With only 264 training rows, Random Forest's ensemble-averaging approach appears more stable than XGBoost's sequential boosting, which typically benefits from larger datasets to fully exploit its ability to correct prior trees' errors. **Decision:** Random Forest retained as the primary model for SHAP explainability (Week 3); XGBoost result kept as a documented comparison baseline.

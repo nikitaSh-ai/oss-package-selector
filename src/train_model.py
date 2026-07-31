@@ -3,6 +3,9 @@ from prepare_model_data import load_features, get_X_y
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.model_selection import GridSearchCV
+from xgboost import XGBClassifier
+
 
 
 
@@ -79,6 +82,67 @@ def run_cross_validation(model, X, y, n_folds=5):
 
 
 
+
+
+
+def tune_model(X_train, y_train):
+    param_grid = {
+        "n_estimators": [100, 200],
+        "max_depth": [4, 6, 8, None],
+        "min_samples_leaf": [1, 3, 5],
+    }
+
+    base_model = RandomForestClassifier(random_state=42, class_weight="balanced")
+
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+    grid_search = GridSearchCV(
+        base_model, param_grid, cv=cv, scoring="accuracy", n_jobs=-1
+    )
+    grid_search.fit(X_train, y_train)
+
+    print(f"\nBest parameters: {grid_search.best_params_}")
+    print(f"Best CV accuracy: {grid_search.best_score_:.3f}")
+
+    return grid_search.best_estimator_
+
+
+
+
+
+
+def show_feature_importance(model, feature_names):
+    importances = model.feature_importances_
+    ranked = sorted(zip(feature_names, importances), key=lambda x: -x[1])
+
+    print("\nFeature Importance (built-in, Gini-based):")
+    for name, score in ranked:
+        print(f"  {name:<25} {score:.3f}")
+
+
+
+
+
+
+
+
+
+def train_xgboost(X_train, y_train):
+    # scale_pos_weight approximates class_weight="balanced" for XGBoost
+    neg, pos = (y_train == 0).sum(), (y_train == 1).sum()
+    scale_pos_weight = neg / pos
+
+    model = XGBClassifier(
+        n_estimators=200,
+        random_state=42,
+        scale_pos_weight=scale_pos_weight,
+        eval_metric="logloss",
+    )
+    model.fit(X_train, y_train)
+    return model
+
+
+
+
 if __name__ == "__main__":
     df = load_features()
     X, y = get_X_y(df)
@@ -102,3 +166,25 @@ if __name__ == "__main__":
 
     evaluate_model(model, X_test, y_test)
     run_cross_validation(model, X, y)
+
+    tuned_model = tune_model(X_train, y_train)
+
+    print("\n--- Tuned model performance ---")
+    tuned_train_acc = tuned_model.score(X_train, y_train)
+    tuned_test_acc = tuned_model.score(X_test, y_test)
+    print(f"Train accuracy: {tuned_train_acc:.3f}")
+    print(f"Test accuracy: {tuned_test_acc:.3f}")
+
+    show_feature_importance(tuned_model, X.columns.tolist())
+
+
+    print("\n=== XGBoost Comparison ===")
+    xgb_model = train_xgboost(X_train, y_train)
+
+    xgb_train_acc = xgb_model.score(X_train, y_train)
+    xgb_test_acc = xgb_model.score(X_test, y_test)
+    print(f"Train accuracy: {xgb_train_acc:.3f}")
+    print(f"Test accuracy: {xgb_test_acc:.3f}")
+
+    evaluate_model(xgb_model, X_test, y_test)
+    run_cross_validation(xgb_model, X, y)
