@@ -75,10 +75,9 @@ Activity-based signals (release cadence, contributor rate) dominate; documentati
 ---
 
 ## Open items / planned follow-ups
-- [ ] Threshold sensitivity check: re-evaluate model at 270/365/545-day label cutoffs to confirm results aren't fragile to our specific 365-day choice (planned for Day 12/13 wrap-up or Week 4 validation)
-- [ ] XGBoost comparison model, to be added after Random Forest tuning is finalized — parallel to prior RUL project's multi-model comparison approach
+- [ ] Threshold sensitivity check: re-evaluate model at 270/365/545-day label cutoffs to confirm results aren't fragile to our specific 365-day choice (planned for Week 4 validation)
+- [x] XGBoost comparison model — completed (see F14)
 - [ ] SHAP importance vs. Gini importance cross-check (Week 3)
-
 
 
 
