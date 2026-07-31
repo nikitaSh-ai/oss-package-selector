@@ -106,3 +106,15 @@ SHAP mean |value| ranking closely matches Day 13's Gini-based feature importance
 - releases_per_year, contributors_per_year, stars_per_day show clean monotonic relationships (high value → pushes toward "well-maintained"), matching intuition.
 - repo_age_days shows a **non-monotonic** pattern (mixed high/low values on both sides of zero) — Gini importance could not have revealed this; SHAP shows the relationship is more complex than "older is better/worse."
 - open_issues shows a similar mixed pattern, suggesting a possible non-linear ("Goldilocks") relationship rather than "more issues = worse." Noted as a hypothesis for further inspection, not a confirmed claim.
+
+
+
+
+
+
+### F16. Per-instance SHAP explanations validated on contrasting examples
+Tested explanation generation on two contrasting packages:
+- **axios** (94.0% predicted well-maintained): top contributors were star velocity, contributor rate, and release cadence — consistent with its known high-activity profile. Notably, repo_age_days contributed slightly *negatively* despite axios being an excellent package, providing a concrete example of the non-monotonic age relationship identified in F15.
+- **validate.io-function** (~0% predicted well-maintained): near-zero activity across release cadence, contributor rate, and star growth dominated the prediction. Notably, weekly_downloads (2.8M — a substantial number) still contributed negatively, illustrating that the model does not let raw popularity override clear inactivity signals — consistent with the deliberate exclusion of popularity from label construction (F6).
+
+Both explanations are coherent and human-readable, confirming the SHAP pipeline produces genuinely useful justifications, not just technically-correct-but-meaningless numbers.

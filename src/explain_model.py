@@ -37,6 +37,34 @@ def get_mean_abs_shap(shap_values_class1, feature_names):
 
 
 
+def explain_package(package_name, df, X, shap_values_class1, expected_value):
+    """Print a human-readable breakdown of one package's prediction."""
+    row_idx = df.index[df["package_name"] == package_name]
+    if len(row_idx) == 0:
+        print(f"Package '{package_name}' not found.")
+        return
+    row_idx = row_idx[0]
+
+    contributions = list(zip(X.columns, X.iloc[row_idx], shap_values_class1[row_idx]))
+    contributions.sort(key=lambda x: -abs(x[2]))  # sort by impact magnitude
+
+    predicted_prob = expected_value + shap_values_class1[row_idx].sum()
+
+    print(f"\n--- Explanation for '{package_name}' ---")
+    print(f"Predicted probability of being well-maintained: {predicted_prob:.1%}")
+    print(f"(Baseline: {expected_value:.1%})\n")
+
+    print("Top feature contributions:")
+    for feature, value, shap_val in contributions:
+        direction = "pushes UP (more reliable)" if shap_val > 0 else "pushes DOWN (less reliable)"
+        print(f"  {feature:<25} value={value:<12.2f} impact={shap_val:+.4f}  {direction}")
+
+
+
+
+
+
+
 if __name__ == "__main__":
     model = load_trained_model()
     df = load_features()
@@ -94,3 +122,15 @@ if __name__ == "__main__":
     ranked = get_mean_abs_shap(shap_values_class1, X.columns.tolist())
     for name, score in ranked:
         print(f"  {name:<25} {score:.4f}")
+
+
+
+
+
+    explain_package("axios", df, X, shap_values_class1, expected_value)
+
+    # Find a genuinely low-scoring package to test the other direction
+    predicted_probs = expected_value + shap_values_class1.sum(axis=1)
+    lowest_idx = predicted_probs.argmin()
+    lowest_package = df.iloc[lowest_idx]["package_name"]
+    explain_package(lowest_package, df, X, shap_values_class1, expected_value)
