@@ -123,3 +123,15 @@ Both explanations are coherent and human-readable, confirming the SHAP pipeline 
 
 ### F17. Comparison tool: close-call threshold for near-tied predictions
 Initial testing (axios vs got, 94% vs 96%) revealed that declaring a flat "winner" for closely-matched packages overstates the tool's confidence and could mislead users into thinking a close second choice is meaningfully worse. Added a 5-percentage-point close-call threshold: comparisons within this margin are framed as "both are strong choices" with only a slight edge noted, rather than a confident recommendation. This is a deliberate interpretability/UX design choice for a decision-support tool, not a statistical constant — chosen as a reasonable, defensible round number.
+
+
+
+
+
+
+### F18. Known failure case: moment vs dayjs ranks against real-world consensus
+CLI testing revealed the tool ranks `moment` (100%) above `dayjs` (93%), despite moment.js being widely known in the developer community as being in "maintenance mode" — its maintainers have publicly stated it is feature-frozen and recommend migrating to alternatives like dayjs/date-fns.
+
+**Root cause analysis:** moment's large legacy scale (historical stars, contributors, and open-issue count accumulated over its long lifetime) keeps activity-based features looking strong, and its `days_since_last_commit` likely still falls under the 365-day threshold due to occasional maintenance patches — even though genuine feature development has stopped. The model has no feature capturing community migration sentiment or "feature-freeze" status, which real developers weigh heavily.
+
+**Significance:** this is a concrete, real-world example of the recency-vs-abandonment limitation already noted in F8, and directly motivates the Week 4 human-comparison validation exercise — this case demonstrates the tool's activity-based signals can diverge from expert/community consensus, and such cases should be surfaced honestly in the paper's Threats to Validity section rather than cherry-picking only favorable examples (like axios) for the write-up.
