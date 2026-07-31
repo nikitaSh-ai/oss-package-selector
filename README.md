@@ -20,7 +20,8 @@ explainable support.
    recommendation with a plain-language explanation.
 
 ## Status
-🚧 In progress — Weeks 1-2 complete (data pipeline + baseline model, 81.3% CV accuracy). Starting Week 3 (Explainability/SHAP).
+🚧 In progress — Weeks 1-3 complete (data pipeline, model, SHAP explainability + CLI demo). Starting Week 4 (Validation + Paper Writing).
+
 
 
 ## Tech Stack
