@@ -93,3 +93,16 @@ Trained XGBoost with matched settings (same predictors, split, `scale_pos_weight
 | Precision (Well-Maintained) | 93% | 90% |
 
 **Interpretation:** With only 264 training rows, Random Forest's ensemble-averaging approach appears more stable than XGBoost's sequential boosting, which typically benefits from larger datasets to fully exploit its ability to correct prior trees' errors. **Decision:** Random Forest retained as the primary model for SHAP explainability (Week 3); XGBoost result kept as a documented comparison baseline.
+
+
+
+
+
+
+### F15. SHAP global importance confirms and extends Gini ranking
+SHAP mean |value| ranking closely matches Day 13's Gini-based feature importance (F13) — same top 2 features (releases_per_year, contributors_per_year), with only ranks 3/4 (stars_per_day, repo_age_days) swapped, and those are nearly tied in both methods. Convergence across two independent importance methods is evidence the model learned a stable pattern rather than an artifact of one metric's known biases.
+
+**Beyond Gini, SHAP reveals relationship shape, not just magnitude:**
+- releases_per_year, contributors_per_year, stars_per_day show clean monotonic relationships (high value → pushes toward "well-maintained"), matching intuition.
+- repo_age_days shows a **non-monotonic** pattern (mixed high/low values on both sides of zero) — Gini importance could not have revealed this; SHAP shows the relationship is more complex than "older is better/worse."
+- open_issues shows a similar mixed pattern, suggesting a possible non-linear ("Goldilocks") relationship rather than "more issues = worse." Noted as a hypothesis for further inspection, not a confirmed claim.

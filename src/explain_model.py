@@ -2,8 +2,39 @@ import shap
 import joblib
 from prepare_model_data import load_features, get_X_y
 
+import matplotlib
+matplotlib.use("Agg")  # non-interactive backend, so we can save without a display window
+import matplotlib.pyplot as plt
+
+
 def load_trained_model(path="models/random_forest_model.pkl"):
     return joblib.load(path)
+
+
+
+
+
+
+
+def save_summary_plot(shap_values_class1, X, path="models/shap_summary_plot.png"):
+    plt.figure()
+    shap.summary_plot(shap_values_class1, X, show=False)
+    plt.tight_layout()
+    plt.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"\n✅ Summary plot saved to {path}")
+
+
+def get_mean_abs_shap(shap_values_class1, feature_names):
+    """Global importance: mean absolute SHAP value per feature."""
+    import numpy as np
+    mean_abs = np.abs(shap_values_class1).mean(axis=0)
+    ranked = sorted(zip(feature_names, mean_abs), key=lambda x: -x[1])
+    return ranked
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -55,3 +86,11 @@ if __name__ == "__main__":
     print(f"  Model's predicted probability (class 1): {predicted_prob:.4f}")
     print(f"  Baseline + sum of SHAP values:            {shap_sum:.4f}")
     print(f"  Match: {abs(predicted_prob - shap_sum) < 0.001}")
+
+
+    save_summary_plot(shap_values_class1, X)
+
+    print("\nGlobal feature importance (mean |SHAP value|):")
+    ranked = get_mean_abs_shap(shap_values_class1, X.columns.tolist())
+    for name, score in ranked:
+        print(f"  {name:<25} {score:.4f}")
