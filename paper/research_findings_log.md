@@ -118,3 +118,8 @@ Tested explanation generation on two contrasting packages:
 - **validate.io-function** (~0% predicted well-maintained): near-zero activity across release cadence, contributor rate, and star growth dominated the prediction. Notably, weekly_downloads (2.8M — a substantial number) still contributed negatively, illustrating that the model does not let raw popularity override clear inactivity signals — consistent with the deliberate exclusion of popularity from label construction (F6).
 
 Both explanations are coherent and human-readable, confirming the SHAP pipeline produces genuinely useful justifications, not just technically-correct-but-meaningless numbers.
+
+
+
+### F17. Comparison tool: close-call threshold for near-tied predictions
+Initial testing (axios vs got, 94% vs 96%) revealed that declaring a flat "winner" for closely-matched packages overstates the tool's confidence and could mislead users into thinking a close second choice is meaningfully worse. Added a 5-percentage-point close-call threshold: comparisons within this margin are framed as "both are strong choices" with only a slight edge noted, rather than a confident recommendation. This is a deliberate interpretability/UX design choice for a decision-support tool, not a statistical constant — chosen as a reasonable, defensible round number.

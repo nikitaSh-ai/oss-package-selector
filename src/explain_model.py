@@ -112,6 +112,51 @@ def generate_natural_language_explanation(package_name, df, X, shap_values_class
 
 
 
+
+
+def compare_packages(name1, name2, df, X, shap_values_class1, expected_value):
+    """Compare two packages and produce a recommendation with reasoning."""
+
+    def get_prob(name):
+        row_idx = df.index[df["package_name"] == name]
+        if len(row_idx) == 0:
+            return None
+        row_idx = row_idx[0]
+        return max(0.0, min(1.0, expected_value + shap_values_class1[row_idx].sum()))
+
+    prob1, prob2 = get_prob(name1), get_prob(name2)
+
+    if prob1 is None or prob2 is None:
+        missing = name1 if prob1 is None else name2
+        return f"❌ Package '{missing}' not found in dataset."
+
+    winner, loser = (name1, name2) if prob1 >= prob2 else (name2, name1)
+    winner_prob, loser_prob = max(prob1, prob2), min(prob1, prob2)
+
+    margin = abs(prob1 - prob2)
+    CLOSE_CALL_THRESHOLD = 0.05  # 5 percentage points
+
+    result = f"\n{'='*60}\n"
+    result += f"COMPARISON: {name1} vs {name2}\n"
+    result += f"{'='*60}\n\n"
+    result += f"  {name1:<20} {prob1:.0%} predicted well-maintained\n"
+    result += f"  {name2:<20} {prob2:.0%} predicted well-maintained\n\n"
+    if margin < CLOSE_CALL_THRESHOLD:
+        result += f"RECOMMENDATION: Both are strong choices — the difference ({margin:.0%}) is within a close-call range. Slight edge: {winner}.\n\n"
+    else:
+        result += f"RECOMMENDATION: {winner} (margin: {margin:.0%})\n\n"
+    result += generate_natural_language_explanation(winner, df, X, shap_values_class1, expected_value) + "\n\n"
+    result += f"For comparison, {loser}:\n"
+    result += generate_natural_language_explanation(loser, df, X, shap_values_class1, expected_value)
+
+    return result
+
+
+
+
+
+
+
 if __name__ == "__main__":
     model = load_trained_model()
     df = load_features()
@@ -187,3 +232,6 @@ if __name__ == "__main__":
     print("\n--- Natural language explanations ---")
     print(generate_natural_language_explanation("axios", df, X, shap_values_class1, expected_value))
     print(generate_natural_language_explanation(lowest_package, df, X, shap_values_class1, expected_value))
+
+
+    print(compare_packages("axios", "got", df, X, shap_values_class1, expected_value))
