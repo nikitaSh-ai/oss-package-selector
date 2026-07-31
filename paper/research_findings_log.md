@@ -135,3 +135,14 @@ CLI testing revealed the tool ranks `moment` (100%) above `dayjs` (93%), despite
 **Root cause analysis:** moment's large legacy scale (historical stars, contributors, and open-issue count accumulated over its long lifetime) keeps activity-based features looking strong, and its `days_since_last_commit` likely still falls under the 365-day threshold due to occasional maintenance patches — even though genuine feature development has stopped. The model has no feature capturing community migration sentiment or "feature-freeze" status, which real developers weigh heavily.
 
 **Significance:** this is a concrete, real-world example of the recency-vs-abandonment limitation already noted in F8, and directly motivates the Week 4 human-comparison validation exercise — this case demonstrates the tool's activity-based signals can diverge from expert/community consensus, and such cases should be surfaced honestly in the paper's Threats to Validity section rather than cherry-picking only favorable examples (like axios) for the write-up.
+
+
+
+
+
+### F19. Day 21 end-to-end testing: resolving power and a second legacy-scale case
+Tested 4 additional real package pairs (lodash/ramda, superagent/ky, jest/mocha, joi/ajv). All 4 fell within the close-call threshold (2-5%), revealing that the model's predicted probabilities compress toward the high end among packages that are all reasonably well-maintained — the classifier distinguishes "clearly healthy" from "clearly abandoned" confidently, but has limited resolving power for fine-grained ranking *within* the healthy cluster. This is a genuine limitation, not a bug, and should be stated plainly rather than implying the tool offers precise fine-grained rankings among already-solid packages.
+
+**Positive validation case:** jest vs mocha (99% vs 94%, jest favored) matches broad real-world developer consensus that jest is the more dominant, actively-evolving testing framework today.
+
+**Second legacy-scale case (milder echo of F18):** superagent vs ky (98% vs 94%, superagent favored) shows the same underlying pattern as the moment/dayjs case — an older, larger-scale package's accumulated stars/contributors/issues can outweigh a newer, leaner package's activity profile, even where community sentiment may favor the newer option. Smaller magnitude than F18, but same root cause (activity-scale features do not directly capture "community migration" or relative modernity).
