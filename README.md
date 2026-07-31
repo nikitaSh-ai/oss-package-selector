@@ -20,7 +20,7 @@ explainable support.
    recommendation with a plain-language explanation.
 
 ## Status
-🚧 In progress — Week 1 complete (331/368 packages collected). Starting Week 2 (Feature Engineering & Model).
+🚧 In progress — Weeks 1-2 complete (data pipeline + baseline model, 81.3% CV accuracy). Starting Week 3 (Explainability/SHAP).
 
 
 ## Tech Stack
