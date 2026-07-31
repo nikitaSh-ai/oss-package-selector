@@ -6,6 +6,19 @@ import matplotlib
 matplotlib.use("Agg")  # non-interactive backend, so we can save without a display window
 import matplotlib.pyplot as plt
 
+FEATURE_PHRASES = {
+    "releases_per_year": "release frequency",
+    "contributors_per_year": "contributor activity",
+    "stars_per_day": "community growth (star velocity)",
+    "repo_age_days": "repository age",
+    "open_issues": "open issue count",
+    "weekly_downloads": "download popularity",
+    "doc_completeness_score": "documentation completeness",
+    "has_license": "license presence",
+}
+
+
+
 
 def load_trained_model(path="models/random_forest_model.pkl"):
     return joblib.load(path)
@@ -58,6 +71,40 @@ def explain_package(package_name, df, X, shap_values_class1, expected_value):
     for feature, value, shap_val in contributions:
         direction = "pushes UP (more reliable)" if shap_val > 0 else "pushes DOWN (less reliable)"
         print(f"  {feature:<25} value={value:<12.2f} impact={shap_val:+.4f}  {direction}")
+
+
+
+
+
+
+
+
+
+
+def generate_natural_language_explanation(package_name, df, X, shap_values_class1, expected_value, top_n=3):
+    """Convert SHAP values into a readable justification sentence."""
+    row_idx = df.index[df["package_name"] == package_name]
+    if len(row_idx) == 0:
+        return f"Package '{package_name}' not found."
+    row_idx = row_idx[0]
+
+    contributions = list(zip(X.columns, shap_values_class1[row_idx]))
+    contributions.sort(key=lambda x: -abs(x[1]))
+
+    predicted_prob = max(0.0, min(1.0, expected_value + shap_values_class1[row_idx].sum()))
+    verdict = "well-maintained" if predicted_prob >= 0.5 else "less reliable"
+
+    positive_reasons = [FEATURE_PHRASES[f] for f, v in contributions[:top_n] if v > 0]
+    negative_reasons = [FEATURE_PHRASES[f] for f, v in contributions[:top_n] if v < 0]
+
+    sentence = f"{package_name} is predicted to be {verdict} ({predicted_prob:.0%} confidence)."
+
+    if positive_reasons:
+        sentence += f" This is primarily supported by strong {', '.join(positive_reasons)}."
+    if negative_reasons:
+        sentence += f" This is weighed down by weak {', '.join(negative_reasons)}."
+
+    return sentence
 
 
 
@@ -134,3 +181,9 @@ if __name__ == "__main__":
     lowest_idx = predicted_probs.argmin()
     lowest_package = df.iloc[lowest_idx]["package_name"]
     explain_package(lowest_package, df, X, shap_values_class1, expected_value)
+
+
+
+    print("\n--- Natural language explanations ---")
+    print(generate_natural_language_explanation("axios", df, X, shap_values_class1, expected_value))
+    print(generate_natural_language_explanation(lowest_package, df, X, shap_values_class1, expected_value))
