@@ -68,7 +68,44 @@ To assess whether tool predictions align with real-world developer judgment, a s
 
 
 ## 4. Results
-*(To be drafted — Day 26)*
+
+### 4.1 Model Performance
+
+The tuned Random Forest classifier achieved a test-set accuracy of 85.1% on a single 80/20 stratified split, and a 5-fold cross-validated accuracy of **81.3% (± 2.8%)** across the full dataset — the latter is reported as the primary performance metric, being less sensitive to the particular composition of any single train-test split. The model showed conservative behavior in the safer error direction: precision on "well-maintained" predictions was 93%, meaning that when the tool recommends a package as well-maintained, it is correct 93% of the time; the more common error was the reverse — a genuinely well-maintained package being flagged as potentially less reliable (16% false-negative rate on this class). For a decision-support tool, this asymmetry is preferable to the alternative, since a false "well-maintained" recommendation carries greater practical risk than an overly cautious one.
+
+A comparison XGBoost model, trained under matched conditions, achieved a lower cross-validated accuracy of 80.0% (± 3.9%), with a larger standard deviation suggesting reduced stability at this dataset size (331 rows). Random Forest's ensemble-averaging approach appears better suited to a dataset of this scale than XGBoost's sequential boosting, which typically benefits from larger training sets.
+
+### 4.2 Feature Importance and Explainability
+
+Both Gini-based feature importance (derived directly from the trained model) and SHAP-based mean absolute importance identified the same top predictors, in near-identical order: normalized release cadence, contributor activity rate, and star growth rate dominate the model's decisions, while documentation completeness and license presence contribute comparatively little. This agreement between two independent importance methods provides evidence that the model learned a stable, non-arbitrary pattern rather than an artifact specific to one metric's known biases.
+
+Beyond ranking feature importance, SHAP analysis revealed relationship *shape* that Gini importance alone cannot express: repository age showed a non-monotonic relationship with the predicted outcome — neither "older is better" nor "older is worse" uniformly — while release cadence, contributor rate, and star growth showed the expected clean monotonic pattern (higher activity, higher predicted probability of being well-maintained).
+
+### 4.3 Natural-Language Explanation Quality
+
+Per-package SHAP explanations were validated on contrasting examples. A well-known, actively maintained package (axios) received a 94% predicted probability of being well-maintained, with the explanation correctly attributing this to strong community growth, contributor activity, and release frequency. An obscure, low-activity package (vali-date) received a 10% predicted probability, with the explanation correctly attributing this to weak activity across the same three dimensions. In both cases, the generated natural-language justification was coherent, specific, and consistent with the underlying quantitative signal — meeting the project's core objective of producing evidence-based, human-readable justifications rather than an opaque score.
+
+### 4.4 Validation Against Independent Evidence
+
+A structured validation exercise compared tool predictions for eight package pairs against independently researched, documented developer consensus (official maintainer statements, third-party package health-scoring metrics, npm download and version trend data). The tool's recommendations agreed with independent evidence in 4 of 8 cases (50%), disagreed in 3 of 8 (37.5%), and were inconclusive in 1 of 8 (12.5%).
+
+Critically, the three disagreement cases were not randomly distributed: all three (moment.js vs. dayjs; lodash vs. ramda; joi vs. ajv) followed the same pattern — the tool favored an older, larger-scale, legacy-established package over a newer or more actively-evolving alternative, even where independent evidence favored the newer option. This is discussed further in Section 5 (Threats to Validity).
+
+## 5. Threats to Validity
+
+**Label construction reflects recency, not true abandonment.** The target label was deliberately built from a single direct signal (commit recency) to avoid label circularity with predictor features (Section 3.3). However, this means the label conflates genuine abandonment with legitimate feature-completeness — a small, stable utility package that has not required a commit in over a year may be functioning correctly, not neglected. This limitation was observed directly in the validation exercise's three disagreement cases, where established, historically large packages (which may see infrequent but still-occurring maintenance activity) were rated more favorably than the label's recency-based construction alone would suggest is warranted, or conversely, cases where genuinely large-but-slowing packages retained a "well-maintained" label despite reduced real-world relative momentum.
+
+**Discovery method introduces a survivorship-style bias.** Because the candidate package set was assembled via popularity- and relevance-ranked search combined with a seed list of well-known packages, the resulting dataset skews toward already-successful, actively maintained packages. This is evidenced concretely by the npm deprecation flag being constant (zero) across all 331 packages in the dataset — genuinely deprecated packages were essentially absent from the collection, despite deprecation being a real and relevant outcome the tool would ideally help developers avoid.
+
+**No feature captures relative modernity or community migration sentiment.** The validation exercise's central finding is that all activity-based predictor features (release cadence, contributor rate, star growth, and similar) measure *absolute* or *rate-normalized* activity, but none captures whether a package's userbase is actively migrating toward a newer alternative — the exact situation with moment.js, which retains substantial legacy scale and occasional maintenance activity despite its maintainers publicly recommending migration away from it. This is a structural limitation of the feature set rather than a fixable bug, and represents the most significant, well-characterized limitation of the current system.
+
+**Modest dataset size limits statistical precision.** With 331 packages, cross-validation fold accuracies ranged from 77.3% to 84.8% — a real, non-trivial spread that should be kept in mind when interpreting any single reported metric as precise. Larger-scale data collection in future work would likely narrow this uncertainty.
+
+**Self-conducted, evidence-grounded validation is not equivalent to independent peer validation.** The original project plan anticipated a peer-panel validation exercise; due to practical constraints, validation was conducted by a single researcher, with self-opinion bias mitigated by grounding each judgment in independently documented, citable evidence rather than personal preference. This is methodologically stronger than pure self-opinion but weaker than genuine multi-person independent validation, and the 50% agreement rate should be interpreted with this constraint in mind.
+
+
+
+
 
 ## 5. Threats to Validity
 *(To be drafted — Day 26)*
