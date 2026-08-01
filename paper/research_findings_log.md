@@ -146,3 +146,32 @@ Tested 4 additional real package pairs (lodash/ramda, superagent/ky, jest/mocha,
 **Positive validation case:** jest vs mocha (99% vs 94%, jest favored) matches broad real-world developer consensus that jest is the more dominant, actively-evolving testing framework today.
 
 **Second legacy-scale case (milder echo of F18):** superagent vs ky (98% vs 94%, superagent favored) shows the same underlying pattern as the moment/dayjs case — an older, larger-scale package's accumulated stars/contributors/issues can outweigh a newer, leaner package's activity profile, even where community sentiment may favor the newer option. Smaller magnitude than F18, but same root cause (activity-scale features do not directly capture "community migration" or relative modernity).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### F20. Validation exercise: 50% agreement with independent evidence, systematic disagreement pattern identified
+Conducted a structured validation exercise (8 package pairs) comparing tool predictions against independently researched real-world evidence (official maintainer statements, third-party health-scoring services, npm download trends, comparison articles) — not self-opinion alone, to partially address the constraint of self-only validation (no peer panel available for this project).
+
+**Results:** 4/8 agreement (50%), 3/8 disagreement (37.5%), 1/8 inconclusive (12.5%).
+
+**Critical finding — disagreements are systematic, not random:** all 3 disagreement cases (moment vs dayjs, lodash vs ramda, joi vs ajv) share the same underlying pattern: the tool favors an older, larger-scale, legacy-established package over a newer or more actively-evolving alternative, even where independent evidence favors the newer option. This directly confirms and extends the mechanism first identified in F18 (moment/dayjs) and F19 (superagent/ky) — the model's activity-based features reward accumulated historical scale (total stars, contributors, releases) but do not capture *momentum*, *community migration sentiment*, or *relative modernity*, which real developers weigh heavily when comparing an established package against a rising alternative.
+
+**Significance for the paper:** a 50% agreement rate on a rigorous, non-cherry-picked test set is an honest number to report as-is. Critically, the *systematic* (rather than scattered/random) nature of the disagreements transforms this from a vague "the model isn't perfect" caveat into a specific, well-characterized, and citable limitation — precisely the kind of finding that strengthens a Threats to Validity section and demonstrates genuine methodological rigor rather than cherry-picked favorable results.
+
+**Methodological note:** validation was self-conducted (no peer panel available) but evidence-grounded rather than opinion-based — each judgment traces to an external, citable source rather than personal preference. This is weaker than genuine independent peer validation but stronger than pure self-opinion, and should be described precisely as such (not overstated as "human validation") in the paper.
