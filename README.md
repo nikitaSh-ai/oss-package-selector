@@ -19,8 +19,14 @@ explainable support.
 4. **Comparison Tool** — Given two packages, output a ranked 
    recommendation with a plain-language explanation.
 
+
+
+
 ## Status
-🚧 In progress — Weeks 1-3 complete (data pipeline, model, SHAP explainability + CLI demo). Starting Week 4 (Validation + Paper Writing).
+✅ Complete — All 4 weeks finished. Data pipeline (368 packages collected, 331 usable), trained and validated Random Forest model (81.3% ± 2.8% CV accuracy), SHAP explainability with natural-language justifications, interactive CLI comparison tool, structured validation exercise against independent evidence (50% agreement, systematic limitation identified and analyzed), and full paper (paper/Explainable_ML_Package_Selection_Paper.docx).
+
+See `paper/research_findings_log.md` for the complete methodology decision log (20 documented findings).
+
 
 
 
