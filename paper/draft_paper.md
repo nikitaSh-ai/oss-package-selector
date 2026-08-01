@@ -29,7 +29,43 @@ Research on open-source package selection falls into three broad areas, each of 
 ---
 
 ## 3. Methodology
-*(To be drafted — Day 25)*
+
+### 3.1 Data Collection
+
+Candidate packages were identified using a hybrid discovery method combining a hand-curated seed list of canonical, well-known packages with npm keyword-qualified search results, across six categories: HTTP clients, Date/time libraries, Testing frameworks, State management, Utility libraries, and Data validation. Pure free-text keyword search was found to return semantically noisy results for some categories (e.g., a "testing framework" query surfacing unrelated packages); the hybrid approach was adopted to balance reproducibility with relevance. This process identified 368 candidate packages.
+
+For each candidate, metadata was collected from two public APIs: the GitHub REST API (stars, forks, open issues, contributor count, commit recency, repository age, README/wiki presence, license) and the npm Registry API (latest version, weekly downloads, publish history, deprecation status). GitHub repository URLs were automatically derived from each package's npm registry metadata, rather than manually mapped, to support reliable collection at scale. Collection used per-package error isolation and rate-limit-aware batching so that individual failures (e.g., a deleted or renamed repository) did not interrupt the overall run. Of 368 candidates, 331 (89.9%) yielded complete data from both sources and were retained for analysis; the remaining 37 had broken or missing repository links, a normal and expected rate of real-world data attrition.
+
+One data field specified in the initial project schema — a package's "dependents count" (the number of other packages that depend on it) — was found to have no reliable public data source. Three approaches were investigated: the official npm registry API (no such endpoint exists), direct scraping of the npm website (blocked by anti-bot protection), and a third-party aggregator API (data found to be several years stale). This field was retained in the schema for completeness but left unpopulated, and is documented here as a data limitation rather than approximated with unreliable data.
+
+### 3.2 Feature Engineering
+
+Raw collected fields were transformed into eight model-ready predictor features, primarily by normalizing activity counts relative to repository age (e.g., releases per year, contributors per year, stars per day), since raw cumulative counts alone are not comparable across repositories of different ages. A minimum age floor (90 days) was applied to these normalization denominators to prevent very young repositories from producing extreme, statistically noisy rates. During this process, a cluster of very recently created packages exhibiting implausibly high release velocity (in excess of 500 releases per year) was identified, consistent with automated or CI-driven publishing rather than typical human-paced maintenance. Rather than manually excluding these packages, all normalized activity features were winsorized (capped at the 95th percentile), preserving the full range of genuinely low-activity packages — an important signal for the classification task — while preventing a small number of anomalous packages from disproportionately influencing model training.
+
+### 3.3 Target Label Design
+
+The binary target label (`well_maintained`) required particular care in its construction. An initial design considered combining multiple signals (commit recency, release cadence, documentation completeness, license presence) into a single weighted composite score. This approach was rejected after recognizing it would create label circularity: since these same signals were intended as model predictors, a model could achieve high apparent accuracy simply by reconstructing the label-construction formula, without learning any genuine relationship between package characteristics and maintenance outcomes.
+
+The label was instead constructed from a single, direct signal — repository commit recency — strictly separated from all predictor features: `well_maintained = 1` if the repository's most recent commit occurred within 365 days, else `0`. This threshold was selected empirically by examining the resulting class balance across several candidate cutoffs (180 to 730 days) rather than chosen arbitrarily, and corresponds to a widely recognized definition of software abandonment. The resulting split (65% well-maintained, 35% less-reliable) was verified to hold reasonably across all six package categories, with no category degenerately composed of a single class.
+
+A second, independent leakage check during data preparation identified that the recency field itself — despite being excluded from the composite-label design — had been inadvertently retained in the predictor feature list. This was corrected prior to model training. A package's npm-registry deprecation flag was also considered as a label signal but found to be constant (zero) across the entire dataset, likely reflecting a bias in the popularity-oriented discovery method toward actively maintained packages; this field was dropped from both label construction and predictors.
+
+### 3.4 Modeling
+
+A Random Forest classifier (scikit-learn, 200 trees, class-balanced weighting) was trained on an 80/20 stratified train-test split (264/67 packages) using eight leakage-free predictor features: repository age, normalized release cadence, normalized star growth, normalized contributor rate, documentation completeness, license presence, weekly downloads, and open issue count. Hyperparameter tuning via grid search (tree depth, minimum leaf size, tree count) found that unconstrained tree depth performed best, suggesting the ensemble's inherent averaging across randomly-sampled trees already provides sufficient regularization at this dataset size, without requiring additional depth constraints. An XGBoost classifier was trained under matched conditions as a comparison baseline; Random Forest achieved marginally higher and more stable cross-validated accuracy and was retained as the primary model.
+
+### 3.5 Explainability
+
+SHAP (SHapley Additive exPlanations) values were computed for the trained Random Forest using the TreeExplainer method, which provides exact (non-approximated) attributions for tree-based models. Correctness was verified by confirming that each package's baseline expected value plus the sum of its SHAP values exactly reproduced the model's predicted probability. Global feature importance derived from mean absolute SHAP values was cross-checked against the model's built-in Gini-based importance, showing strong agreement between the two independent methods. Per-package SHAP values were converted into natural-language justifications via a feature-to-phrase mapping, and a two-package comparison function was built on top of this explanation layer, including an explicit close-call threshold (5 percentage points) to avoid overstating confidence when two candidates' predicted probabilities are nearly tied.
+
+### 3.6 Validation
+
+To assess whether tool predictions align with real-world developer judgment, a structured validation exercise was conducted comparing tool output against independently researched evidence — official maintainer statements, third-party package health-scoring services, and npm download/version trend data — for eight package pairs spanning sanity checks, previously observed contested cases, and cases of a priori uncertain outcome. This approach was adopted specifically to mitigate the risk of unverified self-opinion bias, given that a multi-person peer panel (as originally envisioned) was not available for this project; each judgment in the validation exercise is traceable to an external, citable source rather than personal preference alone.
+
+
+
+
+
 
 ## 4. Results
 *(To be drafted — Day 26)*
