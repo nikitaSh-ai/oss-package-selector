@@ -5,7 +5,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.model_selection import GridSearchCV
 from xgboost import XGBClassifier
-
+import joblib
 
 
 
@@ -143,6 +143,16 @@ def train_xgboost(X_train, y_train):
 
 
 
+
+
+
+def save_model(model, path="models/random_forest_model.pkl"):
+    joblib.dump(model, path)
+    print(f"\n✅ Model saved to {path}")
+
+
+
+
 if __name__ == "__main__":
     df = load_features()
     X, y = get_X_y(df)
@@ -188,3 +198,5 @@ if __name__ == "__main__":
 
     evaluate_model(xgb_model, X_test, y_test)
     run_cross_validation(xgb_model, X, y)
+
+    save_model(tuned_model)
