@@ -2,6 +2,10 @@
 
 **Author:** Nikita Sharma
 
+## Abstract
+
+Developers frequently face dozens of seemingly interchangeable open-source packages when selecting a dependency, relying on inconsistent, manual heuristics (stars, recency, documentation) with no standardized automated support. While prior research has surveyed *what* factors developers consider, this knowledge has not been operationalized into a working, explainable tool — and existing abandonment-prediction research addresses already-adopted dependencies rather than the earlier package-selection decision. This project presents an explainable machine learning framework that compares candidate npm packages using evidence extracted from GitHub and npm registry APIs, classifies them via a Random Forest model (331 packages, 81.3% ± 2.8% cross-validated accuracy), and generates human-readable justifications using SHAP. Beyond system performance, a structured validation exercise comparing tool predictions against independently researched developer consensus (8 package pairs) found 50% agreement, with all three disagreement cases sharing a single, identifiable root cause: the model systematically favors packages with large historical scale over packages with genuine current momentum, unable to capture community migration sentiment from activity-based features alone. This honestly-characterized limitation is presented as a substantive research finding rather than an incidental caveat, illustrating both the practical value and the specific boundaries of evidence-based, explainable package-selection tools.
+
 ---
 
 ## 1. Introduction
@@ -107,8 +111,11 @@ Critically, the three disagreement cases were not randomly distributed: all thre
 
 
 
-## 5. Threats to Validity
-*(To be drafted — Day 26)*
 
 ## 6. Conclusion
-*(To be drafted — Day 27)*
+
+This project designed and implemented an explainable machine learning framework for evidence-based open-source package selection, addressing a documented gap between research on *what* developers consider when choosing packages and the absence of automated tools that operationalize this knowledge into an explainable decision-support system. A Random Forest classifier trained on 331 npm packages achieved 81.3% (± 2.8%) cross-validated accuracy in distinguishing well-maintained from less-reliable packages, with SHAP-derived explanations providing coherent, human-readable justifications for individual predictions and two-package comparisons — directly fulfilling the project's core objective of producing evidence-based reasoning rather than an opaque score.
+
+Equally important to the system's performance is its validated, honestly-characterized limitation: a structured validation exercise against independently researched developer consensus revealed a systematic pattern in the tool's disagreements with real-world judgment. In all three observed disagreement cases, the tool favored packages with large accumulated historical scale over packages with genuine current momentum — most notably ranking moment.js above dayjs despite moment.js's own maintainers publicly recommending migration away from it. This is not a random error but a structural consequence of relying on activity-based features that cannot capture community migration sentiment or relative modernity. Identifying and characterizing this specific failure mode, rather than presenting only favorable examples, is itself a contribution: it demonstrates precisely where evidence-based, explainable tools of this kind can and cannot be trusted, and points to a concrete direction for future work — incorporating signals that capture *relative* trajectory (e.g., a package's growth rate compared to category alternatives) rather than absolute activity level alone.
+
+Future work could extend this system by expanding the dataset beyond 331 packages to improve statistical precision, incorporating a genuine multi-person peer validation panel in place of the evidence-grounded self-validation used here, and exploring features specifically designed to detect community migration patterns. The complete, reproducible pipeline — from data collection through model training, explainability, and validation — along with the full research findings log documenting every methodological decision made along the way, is available in the project repository.
